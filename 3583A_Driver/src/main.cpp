@@ -89,8 +89,8 @@ void spinFlywheel(double speed = 100)
 
 void spinFlywheelDriver()
 {
-  flywheel1.spin(directionType::fwd, 72.5, velocityUnits::pct);
-  flywheel2.spin(directionType::fwd, 72.5, velocityUnits::pct);
+  flywheel1.spin(directionType::fwd, 77.5, velocityUnits::pct);
+  flywheel2.spin(directionType::fwd, 77.5, velocityUnits::pct);
 }
 
 void stopFlywheel()
