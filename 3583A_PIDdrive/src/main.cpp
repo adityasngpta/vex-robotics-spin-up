@@ -30,7 +30,9 @@ int Brain_precision = 0, Console_precision = 0, Controller1_precision = 0;
 CHANGELOG:
 11/16/2022: Made the "stop" button (b) actually work, by setting maintainTrue==False
 11/18/2022: Cleaned up the vestiges of block coding, comments, expansion, 
-
+11/27/2022: Put it into github...maybe?
+  12:16 -- kp=0.125, ki=0.0001, kd=0.05, power scale factor = 50
+  1:17 -- kp=0.11, ki=0.0, kd=0.6, powerscalefactor=50
 */
 
 
@@ -41,9 +43,9 @@ CHANGELOG:
   bool maintainSpeed = true;
   bool ReadyShoot = false;
 
-  double kp = 0.125;
-  double ki = 0.0001;
-  double kd = 0.05;
+  double kp = 0.110;
+  double ki = 0.0;
+  double kd = 0.60;
 
   double preverror = 0.0;
   double error = 0.0;
@@ -182,7 +184,6 @@ int main() {
 
   // wait for rotation sensor to fully initialize
   wait(30, msec);
-  FlyPID(480);
   //wait for flywheel to come up to speed
   //wait(5, seconds);
   //highly temporary test code
