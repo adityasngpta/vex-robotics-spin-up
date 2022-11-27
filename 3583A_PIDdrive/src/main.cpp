@@ -44,7 +44,7 @@ CHANGELOG:
   bool ReadyShoot = false;
 
   double kp = 0.110;
-  double ki = 0.0;
+  double ki = 0.01;
   double kd = 0.60;
 
   double preverror = 0.0;
@@ -74,7 +74,7 @@ int FlyPID(double targetspeed){
   while(maintainSpeed){
     for (int i = 0; i<5; i++) {
       error = targetspeed - Flywheel.velocity(rpm);
-      if (fabs(error) <= 15){
+      if (fabs(error) <= 10){
         ReadyShoot = true;
       }
       else{
@@ -93,7 +93,7 @@ int FlyPID(double targetspeed){
       Flywheel.spin(forward, Power, volt);
       vex::task::sleep(20);
 
-      if (totalError>=7500) {
+      if (totalError>=7500||fabs(error) <= 10)  {
         totalError=0;
       }
     }
