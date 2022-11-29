@@ -63,6 +63,7 @@ CHANGELOG:
   double derivative = 0.0; // = error-preverror
   //double flyspeed;
   double Power = 0;
+  int goodCounter=0; //counts how many times the flyhwheel is good
 
 int FlyPID(double targetspeed){
   //debugging
@@ -80,46 +81,50 @@ int FlyPID(double targetspeed){
   error = 0.0;
   totalError = 0.0; // += error
   derivative = 0.0; // = error-preverror
+
   double Power = 0;
   while(maintainSpeed){
-    for (int i = 0; i<5; i++) {
-      error = targetspeed - Flywheel.velocity(rpm);
-      if (fabs(error) <= 15){
-        ReadyShoot = true;
-      }
-      else{
-        ReadyShoot = false;
-        Power += (error*kp + totalError*ki + (error - preverror)*kd)/50;
-        prevpreverror = preverror;
-        preverror = error;
-        totalError += error;
-        if (Power>12.0) {
-          Power=12.0;
-        } else if (Power<0) {
-          Power=0;
+    for (int j = 0; j<3; j++) {
+      for (int i = 0; i<5; i++) {
+        error = targetspeed - Flywheel.velocity(rpm);
+        if (fabs(error) <= 15){
+          ReadyShoot = true;
+          goodCounter++;
         }
+        else{
+          ReadyShoot = false;
+          Power += (error*kp + totalError*ki + (error - preverror)*kd)/50;
+          prevpreverror = preverror;
+          preverror = error;
+          totalError += error;
+          if (Power>12.0) {
+            Power=12.0;
+          } else if (Power<0) {
+            Power=0;
+          }
 
+        }
+        Flywheel.spin(forward, Power, volt);
+        vex::task::sleep(20);
+
+        if (totalError>=7500||fabs(error) <= 15)  {
+          totalError=0;
+        }
       }
-      Flywheel.spin(forward, Power, volt);
-      vex::task::sleep(20);
-
-      if (totalError>=7500||fabs(error) <= 15)  {
-        totalError=0;
+      //printing graph
+      num1 += diff;
+      num2 = num1+diff;
+      Brain.Screen.drawLine(num1, 120+preverror, num2, 120+error);
+      Brain.Screen.drawLine(num1, 120+prevpreverror, num2, 120+preverror);
+      if (num1 >= 476) {
+        Brain.Screen.clearScreen();
+        num1 = 0;
+        num2 = 0;
+      }
+      if (goodCounter>=9) {
+        Controller1.rumble(rumbleShort);
       }
     }
-    //printing graph
-    Controller1.Screen.newLine();
-    Controller1.Screen.print(error);
-    num1 += diff;
-    num2 = num1+diff;
-    Brain.Screen.drawLine(num1, 120+preverror, num2, 120+error);
-    Brain.Screen.drawLine(num1, 120+prevpreverror, num2, 120+preverror);
-    if (num1 >= 476) {
-      Brain.Screen.clearScreen();
-      num1 = 0;
-      num2 = 0;
-    }
-
   }
   return 1;
   Controller1.Screen.print(ReadyShoot);
@@ -141,11 +146,11 @@ int whenStarted1() {
 
 // "when Controller1 ButtonX pressed" hat block
 void ButtonX_pressed() {
-  if(ReadyShoot) {
+  //if(ReadyShoot) {
     indexer.spinFor(forward, 60.0, degrees, true);
     wait(0.0, seconds);
     indexer.spinFor(forward, -60.0, degrees, true);
-  }
+  //} got rid of the limit thing
 }
 
 //Start running flywheel when button A pressed, start PID
