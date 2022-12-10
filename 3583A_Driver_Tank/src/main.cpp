@@ -26,7 +26,6 @@ double F2_t;
 
 // Driver Variables 
 bool indexerMoving = false;
-bool notTurning = true;
 double turnHeading;
 bool timerStarted = false;
 double axis3;
@@ -260,10 +259,7 @@ void usercontrol(void)
   setup();
 
   while (true) 
-  {
-    if(notTurning)
-    {
-    
+  { 
     axis3 = Controller1.Axis3.value();
     axis2 = Controller1.Axis2.value();
 
@@ -274,7 +270,6 @@ void usercontrol(void)
     // Right Drive
     frontMotorB.spin(directionType::fwd, axis2, percentUnits::pct);
     backMotorB.spin(directionType::fwd, axis2, percentUnits::pct);
-    }
 
     if( ((axis3 != 0) || (axis2 != 0)) && (!timerStarted) )
     {
