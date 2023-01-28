@@ -11,6 +11,8 @@ using namespace vex;
 
 extern brain Brain;
 
+extern distance dsensor;
+
 extern motor frontMotorA;
 extern motor frontMotorB;
 extern motor backMotorA;
@@ -19,6 +21,8 @@ extern motor backMotorB;
 extern motor intake;
 extern motor flywheel1;
 extern motor flywheel2;
+extern motor_group Flywheel;
+
 extern motor indexer;
 
 extern smartdrive driveTrain;
