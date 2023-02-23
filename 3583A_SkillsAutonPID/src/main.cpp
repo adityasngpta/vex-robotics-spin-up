@@ -31,21 +31,6 @@ double current_x = 0;
 double current_y = 0;
 double init_ang = 0;
 
-
-bool maintainSpeed = true;
-   bool ReadyShoot = false;
-
-   double kp = 0.125;
-   double ki = 0.0001;
-   double kd = 0.05;
-
-   double preverror = 0.0;
-   double error = 0.0;
-   double totalError = 0.0; // += error
-   double derivative = 0.0; // = error-preverror
-   //double flyspeed;
-   double Power = 0;
-
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              User Control Task                            */
@@ -93,6 +78,10 @@ void intakeStop()
 void cataDiscs()
 {
   // Add Things Here
+   cata.spinToPosition(down in degrees, 100);
+   cata.spinToPosition(up in degrees, 100);
+   wait(100, msec);
+   cata.spinToPosition(down in degrees, 100);
 }
 
 
