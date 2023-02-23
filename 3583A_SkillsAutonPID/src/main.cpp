@@ -88,104 +88,13 @@ void intakeStop()
 }
 
 
-// Flywheel Functions
+// Cata Functions
 
-void spinFlywheel(double speed = 100)
+void cataDiscs()
 {
-  flywheel1.spin(directionType::fwd, speed, velocityUnits::pct);
-  flywheel2.spin(directionType::fwd, speed, velocityUnits::pct);
+  // Add Things Here
 }
 
-void stopFlywheel()
-{
-  maintainSpeed = false;
-  flywheel1.stop(brakeType::coast);
-  flywheel2.stop(brakeType::coast);
-}
-
-
-int FlyPID(double targetspeed){
-   //debugging
-   int num1 = 0;
-   int num2 = 0;
-   int diff = 2;
-   double prevpreverror = 0.0;
-
-   //actual code
-   maintainSpeed = true;
-   ReadyShoot = false;
-   preverror = 0.0;
-   error = 0.0;
-   totalError = 0.0; // += error
-   derivative = 0.0; // = error-preverror
-   double Power = 0;
-   while(maintainSpeed){
-     for (int i = 0; i<5; i++) {
-       error = targetspeed - Flywheel.velocity(rpm);
-       if (fabs(error) <= 15){
-         ReadyShoot = true;
-       }
-       else{
-         ReadyShoot = false;
-         Power += (error*kp + totalError*ki + (error - preverror)*kd)/50;
-         prevpreverror = preverror;
-         preverror = error;
-         totalError += error;
-         if (Power>12.0) {
-           Power=12.0;
-         } else if (Power<0) {
-           Power=0;
-         }
-
-       }
-       Flywheel.spin(forward, Power, volt);
-       vex::task::sleep(20);
-
-       if (totalError>=7500) {
-         totalError=0;
-       }
-     }
-     //printing graph
-     Controller1.Screen.newLine();
-     Controller1.Screen.print(error);
-     num1 += diff;
-     num2 = num1+diff;
-     Brain.Screen.drawLine(num1, 120+preverror, num2, 120+error);
-     Brain.Screen.drawLine(num1, 120+prevpreverror, num2, 120+preverror);
-     if (num1 >= 476) {
-       Brain.Screen.clearScreen();
-       num1 = 0;
-       num2 = 0;
-     }
-
-   }
-   return 1;
-   Controller1.Screen.print(ReadyShoot);
- }
-
-
- void spinFlywheel2() {
-   
-   FlyPID(490);
-
-   Flywheel.stop();
- }
-
-
-// Indexer Functions
-
-void pushDiscs(int number)
-{
-  double discsPushed = 0;
-
-  while (discsPushed < number)
-  {
-  indexer.spinTo(70, rotationUnits::deg, 100, velocityUnits::pct, true);
-  wait(0, msec);
-  indexer.spinTo(-5, rotationUnits::deg, 100, velocityUnits::pct, true);
-  discsPushed ++;
-  }
-}
 
 bool encLeftReverse = false; // reverse = true
 bool encRightReverse = false; // reverse = true 
@@ -456,31 +365,28 @@ trackingOn = true;
 void autonomous()
 {
   prerequisites();
-  isensor.setHeading(0, deg);
+  isensor.setHeading(270, deg);
   vex::thread t(robotPosition);
-  vex::thread f(spinFlywheel2);
+
+// Roller 1
 
   intakeStart();
-  forwardEnc(10, 50);
-  turnToHeading(270);
   forwardDist(43.5, 50);
   backwardEnc(6, 50);
 
 
-  // Roller 1
+  // Roller 2
   turnToHeading(70);
   forwardEnc(30, 100);
   turnToHeading(0);
   forwardDist(43.5, 50);
-  //spinFlywheel(90);
-  wait(0.1, sec);
   backwardEnc(6, 50);
   intakeStop();
 
   // Shoot 3 Discs
   driveToCoordinate(60, 0);
   turnToHeading(88, 100);
-  pushDiscs(3);
+  cataDiscs();
 
   // Intake 3 Discs
   intakeStart();
@@ -491,10 +397,9 @@ void autonomous()
   driveToCoordinate(105, -55);
   turnToHeading(350);
   intakeStop();
-  pushDiscs(3);
-  //stopFlywheel();
+  cataDiscs();
 
-  // Roller 2
+  // Roller 3
   driveToCoordinate(95, -112.5, -100);
   turnToHeading(90, 75);
   intakeStart();
@@ -504,11 +409,10 @@ void autonomous()
   backwardEnc(25, 50);
   intakeStop();
 
-  // Roller 3
+  // Roller 4
   turnToHeading(180, 100);
   intakeStart();
   forwardDist(43.5, 50);
-  //spinFlywheel(100);
   backwardEnc(10, 20);
 
   // Intake 2 Discs
@@ -516,7 +420,7 @@ void autonomous()
 
   // Shoot 3 Discs
   turnToHeading(237.5, 100);
-  pushDiscs(2);
+  cataDiscs();
   //stopFlywheel();
 
   driveToCoordinate(80, -115, -100);
@@ -524,7 +428,6 @@ void autonomous()
   // Expansion
   endgame.open();
 }
-
 
 void reset(motor &m)
 {
