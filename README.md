@@ -1,1 +1,1 @@
-# Vulcan Robotics: Spin Up: Canary
+# Vulcan Robotics: Spin Up: Beta
