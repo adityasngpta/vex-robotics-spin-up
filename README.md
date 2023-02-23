@@ -1,1 +1,1 @@
-# Vulcan Robotics: Spin Up: Main/Alpha
+# Vulcan Robotics: Spin Up: Main (Alpha)
