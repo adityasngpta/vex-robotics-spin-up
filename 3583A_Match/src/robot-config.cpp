@@ -34,6 +34,8 @@ smartdrive driveTrain = smartdrive(leftDrive, rightDrive, isensor, 12.566367061,
 encoder encLeft = encoder(Brain.ThreeWirePort.G); // and H
 encoder encRight = encoder(Brain.ThreeWirePort.A); // and B
 
+distance dsensor = distance(PORT6);
+
 
 // disc intaker
 motor intake = motor(PORT3, ratio18_1, false); 
@@ -41,6 +43,7 @@ motor intake = motor(PORT3, ratio18_1, false);
 // disk shooter motors
 motor flywheel1 = motor(PORT11, ratio6_1, true); 
 motor flywheel2 = motor(PORT12, ratio6_1, false); 
+motor_group Flywheel = motor_group(flywheel1, flywheel2);
 
 // four bar motor
 motor indexer = motor(PORT20, ratio36_1, false);
