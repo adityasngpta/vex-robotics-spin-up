@@ -20,7 +20,7 @@ motor rightDriveC = motor(PORT14, ratio36_1, true);
 motor_group leftDrive = motor_group(leftDriveA, leftDriveB, leftDriveC);
 motor_group rightDrive = motor_group(rightDriveA, rightDriveB, rightDriveC);
 controller Controller = controller(primary);
-limit limitSwitch = limit(Brain.ThreeWirePort.H);
+limit limitSwitch = limit(Brain.ThreeWirePort.E);
 
 // VEXcode generated functions
 bool RCEnabled = true;
