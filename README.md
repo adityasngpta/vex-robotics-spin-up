@@ -1,1 +1,1 @@
-# Vulcan Robotics: Spin Up: Dev
+# Vulcan Robotics: Spin Up: Canary
