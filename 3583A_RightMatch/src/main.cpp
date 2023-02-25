@@ -77,33 +77,16 @@ void buttonRight() {
 }
 
 void axis3changed() {
+  float x = Controller.Axis3.position();
 
-  // if(abs(Controller.Axis3.position()) > driveVel){
-  //   if(Controller.Axis3.position() < 0-driveVel) {
-  //     leftDrive.setVelocity(0 - driveVel, percent);
-  //   } else {
-  //     leftDrive.setVelocity(driveVel, percent);
-  //   }
-  // }
-  leftDrive.setVelocity(Controller.Axis3.position()*driveVel, percent);
+  leftDrive.setVelocity(0.000086*x*x*x+0.1537*x, percent);
   leftDrive.spin(forward);
 }
 
 void axis2changed() {
+  float x = Controller.Axis2.position();
 
-
-  /*
-  if(abs(Contcataroller.Axis2.position()) > driveVel){
-    if(Controller.Axis2.position() < 0-driveVel) {
-      rightDrive.setVelocity(0 - driveVel, percent);
-    } else {
-      rightDrive.setVelocity(driveVel, percent);
-    }
-  } else  {
-    rightDrive.setVelocity(Controller.Axis2.position(), percent);
-  }d
-  */
-  rightDrive.setVelocity(Controller.Axis2.position()*driveVel, percent);
+  rightDrive.setVelocity(0.000086*x*x*x+0.1537*x, percent);
   rightDrive.spin(forward);
 }
 
